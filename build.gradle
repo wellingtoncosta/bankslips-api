@@ -1,0 +1,36 @@
+buildscript {
+	ext.versions = [
+	        spring: [
+	                boot: '2.1.0.RELEASE'
+	        ]
+	]
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.spring.boot}")
+	}
+
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'br.com.wellingtoncosta'
+version = '1.0.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
