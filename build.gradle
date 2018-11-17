@@ -1,27 +1,22 @@
 buildscript {
-	ext.versions = [
-	        spring: [
-	                boot: '2.1.0.RELEASE'
-	        ]
-	]
 
 	repositories {
 		mavenCentral()
 	}
 
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.spring.boot}")
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE"
 	}
 
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
-group = 'br.com.wellingtoncosta'
-version = '1.0.0-SNAPSHOT'
+group = "br.com.wellingtoncosta"
+version = "1.0.0-SNAPSHOT"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -31,6 +26,40 @@ repositories {
 }
 
 dependencies {
-	implementation('org.springframework.boot:spring-boot-starter-web')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	// H2 Database
+	compile "com.h2database:h2:1.4.197"
+
+	// Hikari Connection Pool
+	compile "com.zaxxer:HikariCP:3.2.0"
+
+	// Jackson
+	compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
+
+	// Javax Inject
+	compile "javax.inject:javax.inject:1"
+
+	// Lombok
+	compileOnly "org.projectlombok:lombok:1.18.4"
+	annotationProcessor "org.projectlombok:lombok:1.18.4"
+
+	// QueryDSL
+	compile "com.querydsl:querydsl-jpa:4.2.1"
+	annotationProcessor "com.querydsl:querydsl-apt:4.2.1:jpa"
+
+	// Spring
+	compile "org.springframework.boot:spring-boot-starter-actuator"
+	runtimeOnly "org.springframework.boot:spring-boot-devtools"
+	compile "org.springframework.boot:spring-boot-starter-data-jpa"
+	compile "org.springframework.boot:spring-boot-starter-web"
+
+	// Tests
+	testCompile "org.springframework.boot:spring-boot-starter-test"
+}
+
+idea {
+	module {
+		def generatedMain = file("out/production/classes/generated/")
+		sourceDirs += generatedMain
+		generatedSourceDirs += generatedMain
+	}
 }
