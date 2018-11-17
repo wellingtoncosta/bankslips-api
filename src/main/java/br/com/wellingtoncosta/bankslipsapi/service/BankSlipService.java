@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Wellington Costa on 16/11/18
@@ -29,12 +30,12 @@ import java.util.List;
         return repository.listAll();
     }
 
-    public BankSlip findById(String uuid) {
+    public BankSlip findById(UUID uuid) {
         return repository.findById(uuid);
     }
 
-    @Transactional public void delete(BankSlip bankSlip) {
-        repository.delete(bankSlip);
+    @Transactional public void delete(UUID uuid) {
+        repository.delete(uuid);
     }
 
     @Transactional public void pay(String uuid, Payment payment) {

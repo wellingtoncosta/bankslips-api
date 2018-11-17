@@ -3,6 +3,7 @@ package br.com.wellingtoncosta.bankslipsapi.domain.repository;
 import br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Wellington Costa on 16/11/18
@@ -15,8 +16,8 @@ public interface BankSlipRepository {
 
     List<BankSlip> listAll();
 
-    BankSlip findById(String uuid);
+    BankSlip findById(UUID uuid);
 
-    void delete(BankSlip bankSlip);
+    void delete(UUID uuid);
 
 }

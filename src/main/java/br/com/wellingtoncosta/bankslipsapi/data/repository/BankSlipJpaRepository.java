@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -49,14 +50,15 @@ import static java.util.Objects.isNull;
                 .collect(Collectors.toList());
     }
 
-    @Override public BankSlip findById(String uuid) {
+    @Override public BankSlip findById(UUID uuid) {
         BankSlipEntity entity = entityManager.find(BankSlipEntity.class, uuid);
         if(isNull(entity)) return null;
         else return entity.toModel();
     }
 
     @Override
-    public void delete(BankSlip bankSlip) {
-        entityManager.remove(bankSlip.toEntity());
+    public void delete(UUID uuid) {
+        entityManager.remove(entityManager.getReference(BankSlipEntity.class, uuid));
     }
+
 }
