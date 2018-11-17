@@ -1,15 +1,14 @@
-package br.com.wellingtoncosta.bankslipsapi.web;
+package br.com.wellingtoncosta.bankslipsapi.web.controller;
 
-import br.com.wellingtoncosta.bankslipsapi.data.json.BankSlipDetailsJson;
-import br.com.wellingtoncosta.bankslipsapi.data.json.BankSlipJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipDetailsJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipJson;
 import br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip;
 import br.com.wellingtoncosta.bankslipsapi.service.BankSlipService;
+import br.com.wellingtoncosta.bankslipsapi.web.json.NewBankSlipJson;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -30,6 +29,15 @@ public class BankSlipController {
 
     @Inject @Lazy public void setService(BankSlipService service) {
         this.service = service;
+    }
+
+    @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<BankSlipJson> create(@RequestBody NewBankSlipJson json) {
+        if(isNull(json)) {
+            return ResponseEntity.badRequest().build();
+        }
+        BankSlip bankSlip = service.create(json.toModel());
+        return ResponseEntity.status(HttpStatus.CREATED).body(bankSlip.toJson());
     }
 
     @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)

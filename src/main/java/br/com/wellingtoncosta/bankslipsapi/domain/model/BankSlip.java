@@ -1,11 +1,12 @@
 package br.com.wellingtoncosta.bankslipsapi.domain.model;
 
 import br.com.wellingtoncosta.bankslipsapi.data.entity.BankSlipEntity;
-import br.com.wellingtoncosta.bankslipsapi.data.json.BankSlipDetailsJson;
-import br.com.wellingtoncosta.bankslipsapi.data.json.BankSlipJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipDetailsJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipJson;
 import lombok.Builder;
 import lombok.Value;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -16,10 +17,19 @@ import java.util.UUID;
 @Value @Builder public class BankSlip {
 
     public final UUID id;
-    public final Date dueDate;
+
+    @NotNull(message = "Due date cannot be null")
+    public Date dueDate;
+
     public final Date paymentDate;
-    public final BigDecimal totalInCents;
-    public final String customer;
+
+    @NotNull(message = "Total in cents date cannot be null")
+    public BigDecimal totalInCents;
+
+    @NotNull(message = "Customer cannot be null")
+    public String customer;
+
+    @NotNull(message = "Status cannot be null")
     public final Status status;
 
     public enum Status { PENDING, PAID, CANCELED }
