@@ -1,10 +1,11 @@
 package br.com.wellingtoncosta.bankslipsapi.web.controller;
 
-import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipDetailsJson;
-import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipJson;
 import br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip;
 import br.com.wellingtoncosta.bankslipsapi.service.BankSlipService;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipDetailsJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipJson;
 import br.com.wellingtoncosta.bankslipsapi.web.json.NewBankSlipJson;
+import br.com.wellingtoncosta.bankslipsapi.web.json.PaymentJson;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,39 @@ public class BankSlipController {
                 return ResponseEntity.notFound().build();
             } else {
                 return ResponseEntity.ok(bankSlip.toDetailedJson());
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value= "/{id}/payments", consumes = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity pay(
+            @PathVariable("id") String uuid,
+            @Valid @RequestBody PaymentJson json
+    ) {
+        try {
+            BankSlip bankSlip = service.findById(UUID.fromString(uuid));
+            if(isNull(bankSlip)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                service.pay(json.toModel(), bankSlip);
+                return ResponseEntity.noContent().build();
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping(value= "/{id}")
+    public ResponseEntity pay(@PathVariable("id") String uuid) {
+        try {
+            BankSlip bankSlip = service.findById(UUID.fromString(uuid));
+            if(isNull(bankSlip)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                service.cancel(bankSlip);
+                return ResponseEntity.noContent().build();
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

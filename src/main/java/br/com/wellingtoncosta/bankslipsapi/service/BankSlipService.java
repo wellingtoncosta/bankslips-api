@@ -11,6 +11,9 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
+import static br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip.Status.CANCELED;
+import static br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip.Status.PAID;
+
 /**
  * @author Wellington Costa on 16/11/18
  */
@@ -38,10 +41,29 @@ import java.util.UUID;
         repository.delete(uuid);
     }
 
-    @Transactional public void pay(String uuid, Payment payment) {
+    @Transactional public void pay(Payment payment, BankSlip bankSlip) {
+        BankSlip bankSlipToPay = BankSlip.builder()
+                .id(bankSlip.id)
+                .dueDate(bankSlip.dueDate)
+                .paymentDate(payment.paymentDate)
+                .totalInCents(bankSlip.totalInCents)
+                .customer(bankSlip.customer)
+                .status(PAID)
+                .build();
 
+        repository.update(bankSlipToPay);
     }
 
-    @Transactional public void cancel(String uuid) { }
+    @Transactional public void cancel(BankSlip bankSlip) {
+        BankSlip bankSlipToCancel = BankSlip.builder()
+                .id(bankSlip.id)
+                .dueDate(bankSlip.dueDate)
+                .totalInCents(bankSlip.totalInCents)
+                .customer(bankSlip.customer)
+                .status(CANCELED)
+                .build();
+
+        repository.update(bankSlipToCancel);
+    }
 
 }
