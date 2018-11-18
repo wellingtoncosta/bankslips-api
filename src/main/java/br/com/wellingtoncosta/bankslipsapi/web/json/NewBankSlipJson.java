@@ -1,25 +1,29 @@
 package br.com.wellingtoncosta.bankslipsapi.web.json;
 
 import br.com.wellingtoncosta.bankslipsapi.domain.model.BankSlip;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+
 /**
  * @author Wellington Costa on 17/11/18
  */
 @Data
-@Builder
-@JsonDeserialize(builder = NewBankSlipJson.NewBankSlipJsonBuilder.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewBankSlipJson {
 
     @JsonProperty("due_date")
     @NotNull(message = "Due date cannot be null")
+    @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     @JsonProperty("total_in_cents")
