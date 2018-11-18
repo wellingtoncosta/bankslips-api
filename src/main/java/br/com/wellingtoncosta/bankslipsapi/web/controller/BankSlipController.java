@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class BankSlipController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<BankSlipJson> create(@RequestBody NewBankSlipJson json) {
+    public ResponseEntity<BankSlipJson> create(@Valid @RequestBody NewBankSlipJson json) {
         if(isNull(json)) {
             return ResponseEntity.badRequest().build();
         }
@@ -53,12 +54,16 @@ public class BankSlipController {
     }
 
     @GetMapping(value= "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<BankSlipDetailsJson> findById(@PathVariable("id") UUID uuid) {
-        BankSlip bankSlip = service.findById(uuid);
-        if(isNull(bankSlip)) {
+    public ResponseEntity<BankSlipDetailsJson> findById(@PathVariable("id") String uuid) {
+        try {
+            BankSlip bankSlip = service.findById(UUID.fromString(uuid));
+            if(isNull(bankSlip)) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(bankSlip.toDetailedJson());
+            }
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(bankSlip.toDetailedJson());
         }
     }
 
