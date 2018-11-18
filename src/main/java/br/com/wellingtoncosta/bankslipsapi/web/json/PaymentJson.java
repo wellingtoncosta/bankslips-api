@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
@@ -16,7 +16,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
     @JsonProperty("payment_date")
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-    private Date paymentDate;
+    private LocalDate paymentDate;
 
     public Payment toModel() {
         return new Payment(paymentDate);

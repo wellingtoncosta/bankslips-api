@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -27,11 +27,11 @@ public class BankSlipEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "due_date")
-    private Date dueDate;
+    @Column(name = "due_date", columnDefinition = "DATE")
+    private LocalDate dueDate;
 
-    @Column(name = "payment_date")
-    private Date paymentDate;
+    @Column(name = "payment_date", columnDefinition = "DATE")
+    private LocalDate paymentDate;
 
     @Column(name = "total_in_cents", scale = 2)
     private BigDecimal totalInCents;

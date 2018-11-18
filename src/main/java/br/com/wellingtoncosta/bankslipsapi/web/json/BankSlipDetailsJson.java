@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
@@ -21,11 +21,11 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
     @JsonProperty("due_date")
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @JsonProperty("payment_date")
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-    private Date paymentDate;
+    private LocalDate paymentDate;
 
     @JsonFormat(shape = STRING)
     @JsonProperty("total_in_cents")
@@ -33,6 +33,10 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
     @JsonProperty("customer")
     private String customer;
+
+    @JsonProperty("fine")
+    @JsonFormat(shape = STRING)
+    private BigDecimal fine;
 
     @JsonProperty("status")
     private String status;

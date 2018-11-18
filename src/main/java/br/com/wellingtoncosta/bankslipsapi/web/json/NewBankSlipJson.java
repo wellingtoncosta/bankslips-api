@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
@@ -24,7 +24,7 @@ public class NewBankSlipJson {
     @JsonProperty("due_date")
     @NotNull(message = "Due date cannot be null")
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @JsonFormat(shape = STRING)
     @JsonProperty("total_in_cents")
