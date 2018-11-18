@@ -6,6 +6,7 @@ import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipDetailsJson;
 import br.com.wellingtoncosta.bankslipsapi.web.json.BankSlipJson;
 import br.com.wellingtoncosta.bankslipsapi.web.json.NewBankSlipJson;
 import br.com.wellingtoncosta.bankslipsapi.web.json.PaymentJson;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class BankSlipController {
         this.service = service;
     }
 
+    @ApiOperation(value = "Generate a new bank slip.")
     @PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<BankSlipJson> create(@Valid @RequestBody NewBankSlipJson json) {
         if(isNull(json)) {
@@ -42,6 +44,7 @@ public class BankSlipController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bankSlip.toJson());
     }
 
+    @ApiOperation(value = "List all bank slips.")
     @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<BankSlipJson>> listAll() {
         List<BankSlip> bankSlips = service.listAll();
@@ -54,6 +57,7 @@ public class BankSlipController {
         }
     }
 
+    @ApiOperation(value = "Find a specific bank slip by id.")
     @GetMapping(value= "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<BankSlipDetailsJson> findById(@PathVariable("id") String uuid) {
         try {
@@ -68,6 +72,7 @@ public class BankSlipController {
         }
     }
 
+    @ApiOperation(value = "Pay a bank slip by id.")
     @PostMapping(value= "/{id}/payments", consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity pay(
             @PathVariable("id") String uuid,
@@ -86,6 +91,7 @@ public class BankSlipController {
         }
     }
 
+    @ApiOperation(value = "Cancel a bank slip by id.")
     @DeleteMapping(value= "/{id}")
     public ResponseEntity pay(@PathVariable("id") String uuid) {
         try {
