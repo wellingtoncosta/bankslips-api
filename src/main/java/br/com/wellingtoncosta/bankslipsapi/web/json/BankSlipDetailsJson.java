@@ -27,6 +27,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private Date paymentDate;
 
+    @JsonFormat(shape = STRING)
     @JsonProperty("total_in_cents")
     private BigDecimal totalInCents;
 

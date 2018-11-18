@@ -26,6 +26,7 @@ public class NewBankSlipJson {
     @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
 
+    @JsonFormat(shape = STRING)
     @JsonProperty("total_in_cents")
     @NotNull(message = "Total in cents date cannot be null")
     private BigDecimal totalInCents;
